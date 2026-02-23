@@ -46,13 +46,11 @@ jobs:
       - name: Run UI tests
         run: |
           pytest -m ui
-          - name: Run UI tests
-            run: |
-              pytest -m ui
+          
+      - name: Upload failure artifacts
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ui-artifacts
+          path: artifacts/
 
-          - name: Upload failure artifacts
-            if: failure()
-            uses: actions/upload-artifact@v4
-            with:
-              name: ui-artifacts
-              path: artifacts/
