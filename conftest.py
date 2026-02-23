@@ -18,7 +18,10 @@ def browser():
 
 @pytest.fixture
 def context(browser):
-    context = browser.new_context(record_video_dir="artifacts/videos")
+    context = browser.new_context(
+        record_video_dir="artifacts/videos",
+        viewport={"width": 1366, "height": 768},
+    )
 
     # Start tracing for each test; we'll save it only if the test fails
     context.tracing.start(screenshots=True, snapshots=True, sources=True)
