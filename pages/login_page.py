@@ -14,7 +14,22 @@ class LoginPage:
         self.logout_button = 'a[href="/logout"]'
 
     def goto(self):
-        self.page.goto(f"{BASE_URL}{LOGIN_PATH}")
+        url = f"{BASE_URL}{LOGIN_PATH}"
+
+        # Navigate and capture response (helps detect 5xx/odd loads)
+        response = self.page.goto(url, wait_until="domcontentloaded")
+
+        # If response exists and looks bad, retry once
+        if response and not response.ok:
+            self.page.reload(wait_until="domcontentloaded")
+
+        # Ensure the login form is actually present (retry once if needed)
+        try:
+            self.page.wait_for_selector(self.username_input, state="visible", timeout=10_000)
+        except Exception:
+            # Sometimes the site serves a transient error page; reload fixes it
+            self.page.reload(wait_until="domcontentloaded")
+            self.page.wait_for_selector(self.username_input, state="visible", timeout=10_000)
 
     def login(self, username: str, password: str):
         self.page.fill(self.username_input, username)
