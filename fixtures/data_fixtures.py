@@ -5,10 +5,10 @@ from utils.data_loader import load_json
 def users():
     return load_json("data/users.json")
 
-@pytest.fixture
+@pytest.fixture(scope="session")
 def default_user(users):
     return users["default_user"]
 
-@pytest.fixture
+@pytest.fixture(scope="session")
 def bad_user(users):
     return users["bad_user"]

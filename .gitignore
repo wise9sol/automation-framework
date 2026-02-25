@@ -6,3 +6,4 @@ playwright/.cache/
 artifacts/
 .idea/
 video/
+.auth/
