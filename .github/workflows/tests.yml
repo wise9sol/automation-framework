@@ -22,9 +22,17 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Run API tests
+      - name: Run API tests (JUnit)
         run: |
-          pytest -m api
+          mkdir -p reports
+          pytest -m api --junitxml=reports/junit-api.xml
+
+      - name: Upload test reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-reports
+          path: reports/
 
   ui-tests:
     runs-on: ubuntu-latest
@@ -46,14 +54,21 @@ jobs:
           pip install -r requirements.txt
           python -m playwright install --with-deps chromium
 
-      - name: Run UI tests
+      - name: Run UI tests (JUnit + HTML)
         run: |
-          pytest -m ui -n auto
-          
+          mkdir -p reports
+          pytest -m ui -n auto --junitxml=reports/junit-ui.xml --html=reports/ui-report.html --self-contained-html
+
+      - name: Upload test reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-reports
+          path: reports/
+
       - name: Upload failure artifacts
         if: failure()
         uses: actions/upload-artifact@v4
         with:
           name: ui-artifacts
           path: artifacts/
-
