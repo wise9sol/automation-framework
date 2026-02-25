@@ -1,3 +1,4 @@
+
 import os
 from datetime import datetime
 
@@ -70,3 +71,5 @@ def pytest_runtest_makereport(item, call):
 
     trace_path = f"artifacts/{item.name}_{timestamp}.zip"
     context.tracing.stop(path=trace_path)
+
+from fixtures.data_fixtures import *  # noqa: F401,F403

@@ -1,0 +1,10 @@
+{
+  "default_user": {
+    "username": "tomsmith",
+    "password": "SuperSecretPassword!"
+  },
+  "bad_user": {
+    "username": "baduser",
+    "password": "badpass"
+  }
+}
