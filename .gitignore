@@ -8,3 +8,4 @@ artifacts/
 video/
 .auth/
 reports/
+*.pyc
